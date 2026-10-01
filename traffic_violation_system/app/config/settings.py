@@ -46,6 +46,15 @@ class Settings(BaseSettings):
     camera_scan_max_index: int = 10
     frame_buffer_size: int = 30
 
+    camera_id: str = "helmet-cam-01"
+    camera_index: int = 0
+    camera_width: int = 1920
+    camera_height: int = 1080
+    camera_fps: int = 30
+    camera_backend: str = "auto"
+    camera_reconnect_enabled: bool = True
+    camera_reconnect_delay: float = 2.0
+
     smtp_host: str = ""
     smtp_port: int = 587
     smtp_user: str = ""

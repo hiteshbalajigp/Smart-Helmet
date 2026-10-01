@@ -61,6 +61,17 @@ training:
   save_period: 10
   resume: false
 
+# Camera subsystem
+camera:
+  camera_id: HELMET-CAM-01
+  camera_index: 0
+  camera_width: 1920
+  camera_height: 1080
+  camera_fps: 30
+  camera_backend: auto
+  camera_reconnect_enabled: true
+  camera_reconnect_delay: 2.0
+
 # Inference
 inference:
   model_path: models/checkpoints/helmet_violation_yolov8m/weights/best.pt
