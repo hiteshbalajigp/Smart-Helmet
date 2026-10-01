@@ -1,0 +1,15 @@
+.env
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+logs/
+data/database/*.db
+data/evidence/**/*
+!data/evidence/.gitkeep
+data/annotated/**/*
+!data/annotated/.gitkeep
+model_weights/**/*.pt
+model_weights/**/*.h5
+model_weights/**/*.onnx

@@ -1,0 +1,14 @@
+# Local development overrides (no PostgreSQL required)
+database:
+  url: sqlite+aiosqlite:///./database/helmet_local.db
+
+backend:
+  host: 127.0.0.1
+  port: 8000
+  cors_origins:
+    - http://localhost:5173
+    - http://127.0.0.1:5173
+
+logging:
+  level: INFO
+  file: logs/app.log

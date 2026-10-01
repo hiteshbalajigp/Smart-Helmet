@@ -1,0 +1,57 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: helmet_violations
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/schema.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      HELMET_DATABASE__URL: postgresql+asyncpg://postgres:postgres@postgres:5432/helmet_violations
+      HELMET_BACKEND__SECRET_KEY: dev-secret-change-in-production
+    volumes:
+      - ./evidence:/app/evidence
+      - ./models:/app/models
+      - ./configs:/app/configs
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  frontend:
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+    ports:
+      - "5173:80"
+    depends_on:
+      - backend
+
+  inference:
+    build: .
+    profiles: ["edge"]
+    command: python -m inference.pipeline --source 0 --config configs/default.yaml
+    devices:
+      - /dev/video0:/dev/video0
+    volumes:
+      - ./evidence:/app/evidence
+      - ./models:/app/models
+      - ./configs:/app/configs
+    depends_on:
+      - backend
+
+volumes:
+  postgres_data:

@@ -1,0 +1,135 @@
+[
+  {
+    "image_path": "datasets\\raw\\incoming\\traffic_dense_all_helmeted.jpg",
+    "result": "no_violation",
+    "violation_count": 0,
+    "helmet_count": 1,
+    "no_helmet_count": 0,
+    "person_count": 0,
+    "motorcycle_count": 0,
+    "violations": [
+      {
+        "source": "manual_review",
+        "label": "no_violation"
+      }
+    ],
+    "detections": [],
+    "added_to_dataset": true,
+    "dataset_path": "datasets\\processed\\val\\images\\traffic_dense_all_helmeted_7ad8a9d8.jpg",
+    "timestamp": "2026-07-17T06:49:08.124150+00:00"
+  },
+  {
+    "image_path": "datasets\\raw\\incoming\\traffic_highway_mixed_helmets.jpg",
+    "result": "violation",
+    "violation_count": 1,
+    "helmet_count": 0,
+    "no_helmet_count": 1,
+    "person_count": 0,
+    "motorcycle_count": 0,
+    "violations": [
+      {
+        "source": "manual_review",
+        "label": "violation"
+      }
+    ],
+    "detections": [],
+    "added_to_dataset": true,
+    "dataset_path": "datasets\\processed\\train\\images\\traffic_highway_mixed_helmets_0730f76d.jpg",
+    "timestamp": "2026-07-17T06:49:08.173950+00:00"
+  },
+  {
+    "image_path": "datasets\\raw\\incoming\\traffic_multi_rider_no_helmet.jpg",
+    "result": "violation",
+    "violation_count": 1,
+    "helmet_count": 0,
+    "no_helmet_count": 1,
+    "person_count": 0,
+    "motorcycle_count": 0,
+    "violations": [
+      {
+        "source": "manual_review",
+        "label": "violation"
+      }
+    ],
+    "detections": [],
+    "added_to_dataset": true,
+    "dataset_path": "datasets\\processed\\train\\images\\traffic_multi_rider_no_helmet_1912e87b.jpg",
+    "timestamp": "2026-07-17T06:49:08.208461+00:00"
+  },
+  {
+    "image_path": "datasets\\raw\\incoming\\traffic_ola_both_helmeted.jpg",
+    "result": "no_violation",
+    "violation_count": 0,
+    "helmet_count": 1,
+    "no_helmet_count": 0,
+    "person_count": 0,
+    "motorcycle_count": 0,
+    "violations": [
+      {
+        "source": "manual_review",
+        "label": "no_violation"
+      }
+    ],
+    "detections": [],
+    "added_to_dataset": true,
+    "dataset_path": "datasets\\processed\\val\\images\\traffic_ola_both_helmeted_18e3bc4e.jpg",
+    "timestamp": "2026-07-17T06:49:08.217933+00:00"
+  },
+  {
+    "image_path": "datasets\\raw\\incoming\\traffic_police_helmet_compliant.jpg",
+    "result": "no_violation",
+    "violation_count": 0,
+    "helmet_count": 1,
+    "no_helmet_count": 0,
+    "person_count": 0,
+    "motorcycle_count": 0,
+    "violations": [
+      {
+        "source": "manual_review",
+        "label": "no_violation"
+      }
+    ],
+    "detections": [],
+    "added_to_dataset": true,
+    "dataset_path": "datasets\\processed\\val\\images\\traffic_police_helmet_compliant_24e847c3.jpg",
+    "timestamp": "2026-07-17T06:49:08.234586+00:00"
+  },
+  {
+    "image_path": "datasets\\raw\\incoming\\traffic_police_stop_no_helmet.jpg",
+    "result": "violation",
+    "violation_count": 1,
+    "helmet_count": 0,
+    "no_helmet_count": 1,
+    "person_count": 0,
+    "motorcycle_count": 0,
+    "violations": [
+      {
+        "source": "manual_review",
+        "label": "violation"
+      }
+    ],
+    "detections": [],
+    "added_to_dataset": true,
+    "dataset_path": "datasets\\processed\\train\\images\\traffic_police_stop_no_helmet_a49696cc.jpg",
+    "timestamp": "2026-07-17T06:49:08.260360+00:00"
+  },
+  {
+    "image_path": "datasets\\raw\\incoming\\traffic_triple_riding_no_helmet.jpg",
+    "result": "violation",
+    "violation_count": 1,
+    "helmet_count": 0,
+    "no_helmet_count": 1,
+    "person_count": 0,
+    "motorcycle_count": 0,
+    "violations": [
+      {
+        "source": "manual_review",
+        "label": "violation"
+      }
+    ],
+    "detections": [],
+    "added_to_dataset": true,
+    "dataset_path": "datasets\\processed\\train\\images\\traffic_triple_riding_no_helmet_137b53af.jpg",
+    "timestamp": "2026-07-17T06:49:08.276386+00:00"
+  }
+]

@@ -1,0 +1,39 @@
+{
+  "name": "finance-tracker-backend",
+  "version": "1.0.0",
+  "description": "Personal Finance Tracker API",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "seed": "node src/utils/seed.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cloudinary": "^2.5.1",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.0.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.9.3",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.16",
+    "openai": "^4.77.0",
+    "pdfkit": "^0.15.2",
+    "socket.io": "^4.8.1",
+    "uuid": "^11.0.3",
+    "xss-clean": "^0.1.4",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.9",
+    "supertest": "^7.0.0"
+  }
+}

@@ -1,0 +1,11 @@
+path: datasets/processed
+train: train/images
+val: val/images
+test: test/images
+nc: 5
+names:
+  0: person
+  1: motorcycle
+  2: helmet
+  3: no_helmet
+  4: license_plate
