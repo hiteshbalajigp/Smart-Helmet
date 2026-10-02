@@ -72,6 +72,16 @@ camera:
   camera_reconnect_enabled: true
   camera_reconnect_delay: 2.0
 
+# YOLOv8 stage 3 configuration
+yolo:
+  model_path: model_weights/yolo/best.pt
+  confidence_threshold: 0.25
+  iou_threshold: 0.45
+  image_size: 640
+  device: auto
+  max_detections: 300
+  visualization_enabled: false
+
 # Inference
 inference:
   model_path: models/checkpoints/helmet_violation_yolov8m/weights/best.pt

@@ -70,6 +70,35 @@ traffic_violation_system/
 └── .env.example
 ```
 
+## YOLOv8 Detection Stage
+
+This stage adds the YOLOv8 object detection layer without introducing violation logic or other later-stage components.
+
+### Model behavior
+
+- The system loads a configurable YOLOv8 weights file via `YOLO_MODEL_PATH` / `YOLO_MODEL_PATH`-compatible settings.
+- If the project has no trained weights yet, the detector is explicitly marked `MODEL_NOT_AVAILABLE` instead of pretending inference succeeded.
+- The runtime reports the actual selected device (`cuda`, `cpu`, or a configured override) and does not silently claim GPU inference when it is running on CPU.
+- Generic pretrained models are not treated as the final traffic-violation model. They are a development and integration scaffold only until the custom trained weights exist.
+
+### Config keys
+
+```env
+YOLO_MODEL_PATH=./model_weights/yolo/best.pt
+YOLO_CONFIDENCE_THRESHOLD=0.25
+YOLO_IOU_THRESHOLD=0.45
+YOLO_IMAGE_SIZE=640
+YOLO_DEVICE=auto
+YOLO_MAX_DETECTIONS=300
+DETECTION_VISUALIZATION_ENABLED=false
+```
+
+### Development notes
+
+- The camera continues to own capture; the YOLO service consumes frames independently.
+- Visualization is a separate development utility and is not the production inference path.
+- The inference service exposes structured detection results with class id, class name, confidence, and bounding box.
+
 ## Quick Start
 
 ```powershell

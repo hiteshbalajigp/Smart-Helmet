@@ -46,6 +46,14 @@ class Settings(BaseSettings):
     camera_scan_max_index: int = 10
     frame_buffer_size: int = 30
 
+    yolo_model_path: Path = PROJECT_ROOT / "model_weights" / "yolo" / "best.pt"
+    yolo_confidence_threshold: float = 0.25
+    yolo_iou_threshold: float = 0.45
+    yolo_image_size: int = 640
+    yolo_device: str = "auto"
+    yolo_max_detections: int = 300
+    detection_visualization_enabled: bool = False
+
     camera_id: str = "helmet-cam-01"
     camera_index: int = 0
     camera_width: int = 1920
