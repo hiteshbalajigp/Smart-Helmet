@@ -9,9 +9,11 @@ USB CAMERA (external)
     ↓
 CameraManager / CameraDevice / per-camera worker threads
     ↓
-PipelineOrchestrator (startup/shutdown)
+Camera frame provider → YOLOv8 detection → object tracking
     ↓
-[Future] Frame buffer → YOLOv8 → violation engine → tracking/dedup
+Vehicle/person association → rider/pillion role candidates
+    ↓
+[Future] violation classification
     ↓
 TaskQueue + BackgroundWorkerPool (evidence, plate/OCR, DB, email)
     ↓
@@ -33,6 +35,7 @@ SQLite database + FastAPI dashboard API (auth-protected endpoints)
 | YOLOv8 / WPOD-NET / PaddleOCR loaders | Interface only |
 | Email service | Implemented (SMTP via env, invoked by workers later) |
 | Performance metrics collector | Scaffold |
+| Vehicle/person tracking and association | Stage 4 implemented; no violation decisions |
 | Police dashboard UI / violation CRUD / hotspot map | Not in Prompt #1 |
 
 Model weights are **not** integrated yet. Loaders report `MODEL WEIGHT NOT YET INTEGRATED` when files are missing.
@@ -99,6 +102,22 @@ DETECTION_VISUALIZATION_ENABLED=false
 - Visualization is a separate development utility and is not the production inference path.
 - The inference service exposes structured detection results with class id, class name, confidence, and bounding box.
 
+## Vehicle/Person Tracking and Association (Stage 4)
+
+`VehiclePersonTrackingService` consumes the structured `DetectionBatch` from the YOLOv8 stage and returns a `SceneTrackingResult`. Its layers remain separate: `IoUObjectTracker` maintains temporal object identities, `VehiclePersonAssociator` groups people with the best spatially matching vehicle, and `RiderPillionRoleAssigner` produces role candidates. The tracker is behind the `ObjectTracker` protocol so a ByteTrack implementation can be substituted without changing association logic.
+
+The default development tracker uses class-aware greedy matching over IoU and normalized center proximity. Duplicate same-class boxes are suppressed within a frame. Tracks retain their IDs through the configured missed-frame grace period; state snapshots expose lifecycle status, age, confidence, first/last observation time, and motion. The implementation holds only active/grace-period tracks and lightweight counters, making its work proportional to the current detections and retained tracks.
+
+Association scores combine the person's bottom-center proximity to the vehicle box, person/vehicle overlap, and the prior frame's vehicle assignment. Each person is assigned to at most one vehicle; groups and person counts are per vehicle. Person/vehicle class names are configurable and matched against YOLO's actual `class_name` values; unrelated model classes are ignored. Configure comma-separated labels in `.env` using `TRACKING_PERSON_CLASSES` and `TRACKING_VEHICLE_CLASSES`.
+
+One confidently associated person may be marked as a rider candidate. For multiple people, the role assigner requires a consistent vehicle image-motion direction and sufficient separation along that direction before proposing the leading person as rider and the others as pillion candidates. If those signals are inconclusive, it reports `UNKNOWN`. Roles are candidates, not determinations. Counts represent associated person tracks per vehicle only.
+
+Tracking configuration is exposed through `TRACKING_ENABLED`, `TRACK_MAX_MISSED_FRAMES`, `TRACK_MIN_CONFIDENCE`, `TRACK_MATCH_THRESHOLD`, `TRACKING_PERSON_CLASSES`, `TRACKING_VEHICLE_CLASSES`, `ASSOCIATION_ENABLED`, `ASSOCIATION_THRESHOLD`, and `ROLE_ASSIGNMENT_THRESHOLD`. The equivalent defaults are documented in `configs/default.yaml`.
+
+The service is constructed independently and can be called with each `DetectionBatch`; it does not capture frames, call OpenCV, load YOLO itself, or use cloud services. Supply `frame_id`, `timestamp`, and `camera_id` explicitly when processing an empty batch, because an empty detection list has no per-detection frame metadata.
+
+**This stage does not determine traffic violations.** It does not classify helmets, triple riding, evidence, plates, or any other violation. On Jetson Orin Nano, the tracker uses small CPU-side box calculations and bounded live-track state; this deterministic IoU implementation is intended as a lightweight development baseline, not a replacement for a production-tuned ByteTrack tracker.
+
 ## Quick Start
 
 ```powershell
@@ -127,5 +146,5 @@ SQLAlchemy uses `DATABASE_URL`. Switch from SQLite to PostgreSQL by updating the
 ## Development Notes
 
 - Only **authorized external USB cameras** should be selected via configured `usb_device_index` per `Camera` record.
-- Real-time detection, association logic, WPOD-NET inference, and PaddleOCR execution are deferred to later prompts.
+- Real-time camera-to-inference orchestration, WPOD-NET inference, and PaddleOCR execution are deferred to later prompts.
 - Email and database writes for violations are designed to run through background workers so the camera loop stays non-blocking.
