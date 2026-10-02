@@ -54,6 +54,16 @@ class Settings(BaseSettings):
     yolo_max_detections: int = 300
     detection_visualization_enabled: bool = False
 
+    tracking_enabled: bool = True
+    track_max_missed_frames: int = 5
+    track_min_confidence: float = 0.25
+    track_match_threshold: float = 0.3
+    tracking_person_classes: str = "person"
+    tracking_vehicle_classes: str = "motorcycle,motorbike,two-wheeler,two_wheeler"
+    association_enabled: bool = True
+    association_threshold: float = 0.45
+    role_assignment_threshold: float = 0.65
+
     camera_id: str = "helmet-cam-01"
     camera_index: int = 0
     camera_width: int = 1920

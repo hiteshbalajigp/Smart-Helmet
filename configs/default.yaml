@@ -82,6 +82,18 @@ yolo:
   max_detections: 300
   visualization_enabled: false
 
+# Stage 4 vehicle/person tracking and association
+tracking:
+  enabled: true
+  max_missed_frames: 5
+  min_confidence: 0.25
+  match_threshold: 0.3
+  person_classes: [person]
+  vehicle_classes: [motorcycle, motorbike, two-wheeler, two_wheeler]
+  association_enabled: true
+  association_threshold: 0.45
+  role_assignment_threshold: 0.65
+
 # Inference
 inference:
   model_path: models/checkpoints/helmet_violation_yolov8m/weights/best.pt
